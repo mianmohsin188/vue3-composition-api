@@ -4,7 +4,7 @@
  * Copyright 2023 Fonticons, Inc.
  */
 (function () {
-  'use strict';
+
 
   function ownKeys(object, enumerableOnly) {
     var keys = Object.keys(object);

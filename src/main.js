@@ -12,8 +12,8 @@ import './assets/theme_assets/plugins/fontawesome/js/all.min.js'
 import './assets/theme_assets/css/portal.css'
 import "./assets/theme_assets/plugins/popper.min.js"
 import "./assets/theme_assets/plugins/bootstrap/js/bootstrap.min.js"
-import "./assets/theme_assets/plugins/chart.js/chart.min.js"
-import "./assets/theme_assets/js/index-charts.js"
+/*import "./assets/theme_assets/plugins/chart.js/chart.min.js"
+import "./assets/theme_assets/js/index-charts.js"*/
 import "./global_helpers/axios-interceptors.js"
 
 import Swal from "sweetalert2";
