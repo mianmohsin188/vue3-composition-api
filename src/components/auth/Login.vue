@@ -82,8 +82,7 @@ import {useAuthStore} from "../../store/auth.js"
 const router = useRouter();
 const form = reactive({
   username: ref(''),
-  password: ref(''),
-  expiresInMins: ref('1'),
+  password: ref('')
 
 })
 const validations = ref({})
