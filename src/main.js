@@ -10,6 +10,7 @@ import axios from "axios";
 
 import './assets/theme_assets/plugins/fontawesome/js/all.min.js'
 import './assets/theme_assets/css/portal.css'
+import { createPopper } from '@popperjs/core';
 import "./assets/theme_assets/plugins/popper.min.js"
 import "./assets/theme_assets/plugins/bootstrap/js/bootstrap.min.js"
 /*import "./assets/theme_assets/plugins/chart.js/chart.min.js"
@@ -28,4 +29,5 @@ pinia.use(({ store }) => {
 const app = createApp(App);
 app.use(pinia);
 app.use(router);
+app.use(createPopper)
 app.mount('#app');

@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
     "axios": "^1.6.8",
     "pinia": "^2.0.0-rc.10",
     "sweetalert2": "^11.10.7",

@@ -17,11 +17,12 @@ axios.interceptors.request.use(
         }
 
 
-        if( useAuthStore().token  && localStorage.getItem('token')) {
+        if( localStorage.getItem('token')) {
             config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
 
         }
          else{
+
             router.push({ name: 'login' });
         }
         return config;

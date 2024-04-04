@@ -19,8 +19,7 @@ const routes = [
         },
         children: [
             {
-                path: "/",
-                name: "home",
+                path: "",
                 component: HomeView
             }
         ]
@@ -48,8 +47,7 @@ const routes = [
         },
         children: [
             {
-                path: "/products",
-                name: "products",
+                path: "",
                 component: ProductsView
             }
         ]
@@ -69,7 +67,7 @@ const router = createRouter({
     routes,
 })
 
-router.beforeEach((to, from, next) => {
+/*router.beforeEach((to, from, next) => {
     const authStore = useAuthStore();
     if (to.meta.requiresAuth && (authStore.user==null && localStorage.getItem('token')==null)) {
         next('/login');
@@ -86,6 +84,24 @@ router.beforeEach((to, from, next) => {
 
 
 
+});*/
+
+router.beforeEach((to, from, next) => {
+    const authStore = useAuthStore();
+    const token = localStorage.getItem("token");
+
+    if (to.meta.requiresAuth && !authStore.user && !token) {
+        // Redirect to login if route requires authentication and user is not logged in
+        next("/login");
+    } else if (to.meta.requireGuest && (authStore.user || token)) {
+        // Redirect to home if route requires guest access and user is logged in
+        next("/");
+    } else {
+        // Store the last visited route in localStorage
+        localStorage.setItem("lastVisitedRoute", to.fullPath);
+        // Allow navigation to proceed
+        next();
+    }
 });
 
 export default router
