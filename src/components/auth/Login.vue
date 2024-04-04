@@ -11,7 +11,7 @@
               <div class="auth-form login-form">
                 <div class="email mb-3">
                   <label class="sr-only" for="signin-email">Email</label>
-                  <input id="signin-email" name="signin-email" v-model.trim="form.username" type="text" class="form-control signin-email" placeholder="Email address" required="required">
+                  <input id="signin-email" name="signin-email" v-model.trim="form.username" type="text" class="form-control signin-email" placeholder="Username" required="required">
                   <span v-if="validations?.username" class="text-danger">{{validations?.username}}</span>
                 </div><!--//form-group-->
                 <div class="password mb-3">
@@ -38,6 +38,8 @@
                   <button type="button" @click="login()" class="btn app-btn-primary w-100 theme-btn mx-auto">Log In</button>
                 </div>
               </div>
+
+
 
               <!--            <div class="auth-option text-center pt-5">No Account? Sign up <a class="text-link" href="signup.html" >here</a>.</div>-->
             </div><!--//auth-form-container-->
@@ -81,8 +83,8 @@ import {useRouter} from "vue-router";
 import {useAuthStore} from "../../store/auth.js"
 const router = useRouter();
 const form = reactive({
-  username: ref(''),
-  password: ref('')
+  username: ref('kminchelle'),
+  password: ref('0lelplR')
 
 })
 const validations = ref({})
@@ -93,7 +95,7 @@ document.title = title.value
 const login = async () => {
   validations.value = {}
   if(form.username==''){
-    validations.value.username = 'username is required'
+    validations.value.username = 'Username is required'
   }
   if(form.password==''){
     validations.value.password = 'Password is required'
