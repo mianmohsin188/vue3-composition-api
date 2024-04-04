@@ -15,6 +15,9 @@
      <!--//app-footer-->
 
     </div>
+
+
+
   </body>
 
 
@@ -25,6 +28,7 @@
 import MenuBar from "./MenuBar.vue";
 import Sidebar from "./Sidebar.vue";
 import Footer from "./Footer.vue";
+
 
 const isLoggedIn = localStorage.getItem('token');
 
