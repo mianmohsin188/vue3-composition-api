@@ -9,7 +9,7 @@
           <div class="col-auto">
             <form class="table-search-form row gx-1 align-items-center">
               <div class="col-auto ">
-                <input type="search" @input="getProducts()" v-model.trim="search" id="search-orders" name="searchorders" class=" p-3 form-control search-orders "
+                <input type="search" @input="getProducts()" v-model.trim="search" id="search-orders" name="searchorders" class="m-1 form-control search-orders "
                        placeholder="Search">
               </div>
 <!--              <div class="col-auto">
