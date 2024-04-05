@@ -8,18 +8,18 @@
         <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
           <div class="col-auto">
             <form class="table-search-form row gx-1 align-items-center">
-              <div class="col-auto">
-                <input type="search" @input="getProducts()" v-model.trim="search" id="search-orders" name="searchorders" class="form-control search-orders"
+              <div class="col-auto ">
+                <input type="search" @input="getProducts()" v-model.trim="search" id="search-orders" name="searchorders" class=" p-3 form-control search-orders "
                        placeholder="Search">
               </div>
-              <div class="col-auto">
+<!--              <div class="col-auto">
                 <button type="submit" class="btn app-btn-secondary">Search</button>
-              </div>
+              </div>-->
             </form>
 
           </div>
           <!--//col-->
-          <div class="col-auto">
+<!--          <div class="col-auto">
 
             <select class="form-select w-auto">
               <option selected value="option-1">All</option>
@@ -28,9 +28,10 @@
               <option value="option-4">Last 3 months</option>
 
             </select>
-          </div>
+          </div>-->
           <div class="col-auto">
-            <a class="btn app-btn-secondary" href="#">
+
+            <a class="btn app-btn-secondary" @click="exportToCSV" href="#">
               <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-download me-1" fill="currentColor"
                    xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
@@ -120,6 +121,7 @@
 import axios from "axios";
 import {onMounted, ref} from "vue";
 import Swal from "sweetalert2";
+import HelperMixin from "../../global_helpers/HelperMixin.js";
 
 document.title = 'Products'
 name: 'Products'
@@ -148,5 +150,13 @@ Swal.fire("Error", "Network Error!", "error");
 onMounted(()=>{
   getProducts();
 })
+ const exportToCSV=()=>{
+
+  let csvData= HelperMixin.methods.convertJsonToCSV(products.value)
+  if (csvData) {
+    HelperMixin.methods.downloadCsv(csvData, 'products');
+  }
+
+}
 </script>
 <style scoped></style>
