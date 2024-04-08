@@ -170,6 +170,9 @@
 
     </div><!--//sidepanel-inner-->
   </div><!--//app-sidepanel-->
+
+
+
 </template>
 
 <script>

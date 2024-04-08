@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "./components/dashboard/Index.vue";
 import LoginView from "./components/auth/Login.vue";
+import RegisterView from "./components/auth/Register.vue"
 import MainLayout from "./layout/MainLayout.vue";
 import DocsView from "./components/docs/Index.vue";
 import ProductsView from "./components/products/Index.vue";
@@ -59,7 +60,15 @@ const routes = [
         meta: {
             requireGuest: true
         }
-    }
+    },
+    {
+        path: "/register",
+        name: "register",
+        component: RegisterView,
+        meta: {
+            requireGuest: true
+        }
+    },
 
 ]
 const router = createRouter({
@@ -90,7 +99,10 @@ router.beforeEach((to, from, next) => {
     const authStore = useAuthStore();
     const token = localStorage.getItem("token");
 
-    if (to.meta.requiresAuth && !authStore.user && !token) {
+    if(to.meta.requireGuest && to=='/register' && !authStore.user && !token){
+        next('/register')
+    }
+    else if (to.meta.requiresAuth && !authStore.user && !token) {
         // Redirect to login if route requires authentication and user is not logged in
         next("/login");
     } else if (to.meta.requireGuest && (authStore.user || token)) {

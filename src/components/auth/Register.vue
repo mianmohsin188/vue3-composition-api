@@ -6,12 +6,17 @@
         <div class="d-flex flex-column align-content-end">
           <div class="app-auth-body mx-auto">
             <div class="app-auth-branding mb-4"><a class="app-logo" href="index.html"><img class="logo-icon me-2" :src="logo" alt="logo"></a></div>
-            <h2 class="auth-heading text-center mb-5">Log in to Portal</h2>
+            <h2 class="auth-heading text-center mb-5">Register to Portal</h2>
             <div class="auth-form-container text-start">
               <div class="auth-form login-form">
                 <div class="email mb-3">
+                  <label class="sr-only" for="signin-email">Display Name</label>
+                  <input id="signin-email" name="signin-email" v-model.trim="form.displayName" type="text"  class="form-control signin-email" placeholder="Enter Display name" required="required">
+                  <span v-if="validations?.displayName" class="text-danger">{{validations?.displayName}}</span>
+                </div>
+                <div class="email mb-3">
                   <label class="sr-only" for="signin-email">Email</label>
-                  <input id="signin-email" name="signin-email" v-model.trim="form.email" type="text" class="form-control signin-email" placeholder="email" required="required">
+                  <input id="signin-email" name="signin-email" v-model.trim="form.email" type="email" @input="validateEmail" class="form-control signin-email" placeholder="Enter Email" required="required">
                   <span v-if="validations?.email" class="text-danger">{{validations?.email}}</span>
                 </div><!--//form-group-->
                 <div class="password mb-3">
@@ -19,26 +24,22 @@
                   <input id="signin-password" name="signin-password" type="password" v-model.trim="form.password" class="form-control signin-password" placeholder="Password" required="required">
                   <span v-if="validations?.password" class="text-danger">{{validations?.password}}</span>
                   <div class="extra mt-3 row justify-content-between">
-                    <div class="col-6">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="RememberPassword">
-                        <label class="form-check-label" for="RememberPassword">
-                          Remember me
-                        </label>
-                      </div>
-                    </div><!--//col-6-->
-                    <div class="col-6">
-                      <div class="forgot-password text-end">
-                        <a href="reset-password.html">Forgot password?</a>
-                      </div>
-                    </div><!--//col-6-->
+
                   </div><!--//extra-->
-                </div><!--//form-group-->
-                <div class="text-center">
-                  <button type="button" @click="login()" class="btn app-btn-primary w-100 theme-btn mx-auto">Log In</button>
+                </div>
+                <div class="password mb-3">
+                  <label class="sr-only" for="signin-password">Password</label>
+                  <input id="signin-password" name="signin-password" type="password" v-model.trim="confirm_password" class="form-control signin-password" placeholder="Enter Confirm Password" required="required">
+                  <span v-if="validations?.confirm_password" class="text-danger">{{validations?.confirm_password}}</span>
+                  <div class="extra mt-3 row justify-content-between">
+
+                  </div><!--//extra-->
                 </div>
                 <div class="text-center">
-                  <RouterLink to="/register">Sign Up </RouterLink>
+                  <button type="button" @click="register()" class="btn app-btn-primary w-100 theme-btn mx-auto">Sign Up</button>
+                </div>
+                <div class="text-center mt-2">
+                  <RouterLink to="/login">Login</RouterLink>
                 </div>
               </div>
 
@@ -84,32 +85,49 @@ import logo from "../../assets/theme_assets/images/app-logo.svg";
 import axios from "axios";
 import {useRouter} from "vue-router";
 import {useAuthStore} from "../../store/auth.js"
+import Swal from "sweetalert2";
+import {createUserWithEmailAndPassword,getAuth} from "firebase/auth";
 const router = useRouter();
 const form = reactive({
-  email: ref('kminchelle'),
-  password: ref('0lelplR')
-
+  email: ref(''),
+  password: ref(''),
+  displayName:ref('')
 })
+const confirm_password = ref('')
 const validations = ref({})
-const title = ref('Login');
+const title = ref('Register');
 const authStore = useAuthStore();
+const auth = getAuth();
 document.title = title.value
 
-const login = async () => {
+const register = async () => {
   validations.value = {}
+  if(form.displayName==''){
+    validations.value.displayName = 'Display Name is required'
+  }
   if(form.email==''){
     validations.value.email = 'Email is required'
   }
+
   if(form.password==''){
     validations.value.password = 'Password is required'
   }
+  if(confirm_password.value==''){
+    validations.value.confirm_password = 'Confirm Password is required'
+  }
+
+  if(form.password!=confirm_password.value){
+    validations.value.confirm_password = 'Password and Confirm Password must be same'
+  }
+ if(form.email!=''){
+   validateEmail();
+ }
 
   if(!Object.keys(validations.value).length){
 
     try {
-     await authStore.login(form);
+      await authStore.register(form);
       router.push('/');
-
     }
     catch(error) {
       if (error.code === 'auth/email-already-in-use') {
@@ -125,12 +143,43 @@ const login = async () => {
         //  Swal.fire('Error', 'An error occurred during registration.', 'error');
         validations.value.email = error.message
       }
+
     }
+
+    /*try {
+      const userCredential = await createUserWithEmailAndPassword(auth,form.email, form.password);
+      // User registration successful
+      console.log(userCredential)
+      if(userCredential.user){
+        authStore.setUser(userCredential.user)
+        router.push('/');
+      }
+
+    }
+    catch (error) {
+      // Handle registration errors
+      console.log(error)
+
+      Swal.fire("Error",error?.message,'error')
+      return false;
+    }*/
   }
   else {
     return false;
   }
 
+}
+const validateEmail=()=> {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+ let isValidEmail = regex.test(form.email);
+ if (!isValidEmail){
+   validations.value.email = 'Enter valid email'
+   return false
+ }
+ else{
+   delete validations.value.email
+
+ }
 }
 
 

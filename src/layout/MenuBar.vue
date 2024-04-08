@@ -164,7 +164,7 @@ export default {
   },
   mounted() {
     this.userData=JSON.parse(localStorage.getItem('user')),
-   this.username=this.userData.username
+   this.username=this.userData.displayName
     this.userProfileImg="https://ui-avatars.com/api/?background=15a362&rounded=true&color=fff&name="+this.username
   }
 
